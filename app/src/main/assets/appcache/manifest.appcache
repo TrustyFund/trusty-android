@@ -1,0 +1,16 @@
+CACHE MANIFEST
+#ver:2018-1-24 20:00:20
+#plugin:4.9.0
+
+CACHE:
+/client.42fbca59.js
+/vendor.28031103.js
+/manifest.9376273b.js
+/
+/favicon.ico
+
+NETWORK:
+*
+
+FALLBACK:
+/ /
