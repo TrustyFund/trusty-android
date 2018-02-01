@@ -2,8 +2,12 @@ package fund.trusty.trusty
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import org.xwalk.core.XWalkNavigationHistory
 import org.xwalk.core.XWalkView
+import com.google.firebase.iid.FirebaseInstanceId
+
+
 
 class MainActivity : AppCompatActivity(){
 
@@ -13,7 +17,8 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         xWalkView=findViewById<XWalkView>(R.id.xWalkView)
-
+        val token = FirebaseInstanceId.getInstance().token
+        Log.d("token fcm", token);
         loadStartPage()
     }
 

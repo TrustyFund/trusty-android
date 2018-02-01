@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -48,4 +49,9 @@ dependencies {
         // avoid pulling incorrect version of support library
         exclude group: 'com.android.support', module: 'support-v4'
     }
+
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.firebase:firebase-jobdispatcher:0.8.5'
+
 }
+apply plugin: 'com.google.gms.google-services'
