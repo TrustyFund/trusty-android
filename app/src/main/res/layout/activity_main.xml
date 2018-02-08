@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context="fund.trusty.trusty.MainActivity">
 
-    <org.xwalk.core.XWalkView
-        android:id="@+id/xWalkView"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
 
+    <im.delight.android.webview.AdvancedWebView
+        android:id="@+id/advancedWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

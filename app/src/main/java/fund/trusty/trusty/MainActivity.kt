@@ -1,56 +1,72 @@
 package fund.trusty.trusty
 
+import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.LinearLayout
 import org.xwalk.core.XWalkNavigationHistory
 import org.xwalk.core.XWalkView
 import com.google.firebase.iid.FirebaseInstanceId
+import fund.trusty.trusty.retrofit.models.Response
+import fund.trusty.trusty.retrofit.models.TrustyInteraceAPI
+import im.delight.android.webview.AdvancedWebView
+import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
 
 
+class MainActivity : AppCompatActivity(), AdvancedWebView.Listener{
 
-class MainActivity : AppCompatActivity(){
 
-    lateinit var xWalkView:XWalkView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        xWalkView=findViewById<XWalkView>(R.id.xWalkView)
-        val token = FirebaseInstanceId.getInstance().token
-        Log.d("token fcm", token);
-        loadStartPage()
+        val token = FirebaseInstanceId.getInstance().token.toString()
+        Log.d("token fcm", token)
+
+        advancedWebView.setListener(this,this)
+        advancedWebView.loadUrl(serverUrl)
     }
 
-
-
-//region xWalk
-private fun loadStartPage(){
-            xWalkView.load("file:///android_asset/index.html",null)
+    override fun onPageFinished(url: String?) {
     }
 
-    override fun onPause() {
-        super.onPause()
-        xWalkView.onHide();
+    override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
+    }
+
+    override fun onDownloadRequested(url: String?, suggestedFilename: String?, mimeType: String?, contentLength: Long, contentDisposition: String?, userAgent: String?) {
+    }
+
+    override fun onExternalPageRequest(url: String?) {
+    }
+
+    override fun onPageStarted(url: String?, favicon: Bitmap?) {
+    }
+
+    override fun onBackPressed() {
+        if(!advancedWebView.onBackPressed())
+            return
+        super.onBackPressed()
     }
 
     override fun onResume() {
         super.onResume()
-        loadStartPage()
+        advancedWebView.onResume();
+    }
+
+    override fun onPause() {
+        advancedWebView.onPause()
+        super.onPause()
     }
 
     override fun onDestroy() {
+        advancedWebView.onDestroy()
         super.onDestroy()
-        xWalkView.onDestroy()
     }
-
-    override fun onBackPressed() {
-        if(xWalkView.navigationHistory.canGoBack()){
-            xWalkView.navigationHistory.navigate(XWalkNavigationHistory.Direction.BACKWARD,1)
-        }
-        else {
-            super.onBackPressed()
-        }
-    }
-//endregion
 }

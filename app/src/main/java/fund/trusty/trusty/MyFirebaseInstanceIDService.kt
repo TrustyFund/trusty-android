@@ -1,15 +1,19 @@
 package fund.trusty.trusty
 
 import android.util.Log
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
-
+import com.google.firebase.iid.FirebaseInstanceId
+import fund.trusty.trusty.retrofit.models.Response
+import fund.trusty.trusty.retrofit.models.TrustyInteraceAPI
+import retrofit2.Call
+import retrofit2.Callback
 
 
 /**
- * Created by well on 01.02.2018.
+ * Created by well on 08.02.2018.
  */
-class MyFirebaseInstanceIDService : FirebaseInstanceIdService() {
+class MyFirebaseInstanceIDService : FirebaseInstanceIdService(){
+    private val TAG = "MyFirebaseIIDService"
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -38,11 +42,16 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService() {
      * @param token The new token.
      */
     private fun sendRegistrationToServer(token: String?) {
-        // TODO: Implement this method to send token to your app server.
-    }
+        val trustyInteraceAPI= TrustyInteraceAPI.create()
+        val call = trustyInteraceAPI.setToken(token.toString(), "application/x-www-form-urlencoded")
+        call.enqueue(object : Callback<Response> {
+            override fun onFailure(call: Call<Response>?, t: Throwable?) {
+                Log.d("retrofit", "fail response");
+            }
 
-    companion object {
-
-        private val TAG = "MyFirebaseIIDService"
+            override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
+                Log.d("retrofit", response?.body().toString())
+            }
+        })
     }
 }

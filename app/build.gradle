@@ -21,6 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        preDexLibraries true
+        javaMaxHeapSize "4G"
+    }
 }
 
 repositories {
@@ -41,6 +46,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    compile "com.squareup.retrofit2:converter-gson:2.3.0"
+    // rxandroid
+    compile "io.reactivex.rxjava2:rxandroid:2.0.1"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
     debugCompile('org.xwalk:xwalk_core_library:20.50.533.12') {
         // avoid pulling incorrect version of support library
         exclude group: 'com.android.support', module: 'support-v4'
@@ -52,6 +64,6 @@ dependencies {
 
     compile 'com.google.firebase:firebase-messaging:11.8.0'
     compile 'com.firebase:firebase-jobdispatcher:0.8.5'
-
+    compile 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
