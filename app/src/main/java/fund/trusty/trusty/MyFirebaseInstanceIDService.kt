@@ -3,11 +3,6 @@ package fund.trusty.trusty
 import android.util.Log
 import com.google.firebase.iid.FirebaseInstanceIdService
 import com.google.firebase.iid.FirebaseInstanceId
-import fund.trusty.trusty.retrofit.models.Response
-import fund.trusty.trusty.retrofit.models.TrustyInteraceAPI
-import retrofit2.Call
-import retrofit2.Callback
-
 
 /**
  * Created by well on 08.02.2018.
@@ -42,16 +37,5 @@ class MyFirebaseInstanceIDService : FirebaseInstanceIdService(){
      * @param token The new token.
      */
     private fun sendRegistrationToServer(token: String?) {
-        val trustyInteraceAPI= TrustyInteraceAPI.create()
-        val call = trustyInteraceAPI.setToken(token.toString(), "application/x-www-form-urlencoded")
-        call.enqueue(object : Callback<Response> {
-            override fun onFailure(call: Call<Response>?, t: Throwable?) {
-                Log.d("retrofit", "fail response");
-            }
-
-            override fun onResponse(call: Call<Response>?, response: retrofit2.Response<Response>?) {
-                Log.d("retrofit", response?.body().toString())
-            }
-        })
     }
 }
