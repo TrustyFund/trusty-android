@@ -22,9 +22,12 @@ class MainActivity : AppCompatActivity(), AdvancedWebView.Listener{
         StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.splashScreenBackground))
         val token = FirebaseInstanceId.getInstance().token.toString()
         Log.d("token fcm", token)
-
         advancedWebView.setListener(this,this)
-        advancedWebView.loadUrl(siteUrl)
+
+        val url:String? = intent.getStringExtra("url")
+        if(url!=null) advancedWebView.loadUrl(url)
+        else advancedWebView.loadUrl(siteUrl)
+
         val webViewSettings = advancedWebView.settings;
         webViewSettings.javaScriptEnabled = true
         advancedWebView.addJavascriptInterface(JSInterface(this,advancedWebView), "Android")

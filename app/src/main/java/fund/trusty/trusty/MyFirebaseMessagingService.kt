@@ -1,6 +1,5 @@
 package fund.trusty.trusty
 
-import android.content.Context.NOTIFICATION_SERVICE
 import android.app.NotificationManager
 import android.media.RingtoneManager
 import android.app.PendingIntent
@@ -8,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import android.util.Log
-import com.firebase.jobdispatcher.Job
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -44,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "From: " + remoteMessage.from!!)
 
         // Check if message contains a data payload.
-        if (remoteMessage.data.size > 0) {
+        if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
             if (/* Check if data needs to be processed by long running job */ true) {
@@ -62,8 +60,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body.toString())
         }
 
-
-        sendNotification(remoteMessage.notification?.title.toString(),remoteMessage.notification?.body.toString())
+        Log.d(TAG, remoteMessage.notification.toString())
+        sendNotification(remoteMessage.notification?.title.toString(),remoteMessage.notification?.body.toString(),
+                remoteMessage.data)
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
     }
@@ -95,9 +94,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param messageBody FCM message body received.
      */
-    private fun sendNotification(title: String, body:String) {
+    private fun sendNotification(title: String, body: String, data: MutableMap<String, String>) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.putExtra(urlIntent,data.values.first())
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT)
 
