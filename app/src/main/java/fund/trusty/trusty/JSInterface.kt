@@ -17,7 +17,7 @@ class JSInterface (val context:Context, val webView:AdvancedWebView) {
         val token = FirebaseInstanceId.getInstance().token
         val mainHandler = Handler(context.mainLooper)
 
-        val myRunnable = Runnable { webView.loadUrl(String.format("javascript:setUserToken('%s','android');", token), null) }
+        val myRunnable = Runnable { webView.loadUrl(String.format("javascript:sendToken('%s','android');", token), null) }
         mainHandler.post(myRunnable)
     }
 }
